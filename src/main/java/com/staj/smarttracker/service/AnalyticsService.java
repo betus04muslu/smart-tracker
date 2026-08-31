@@ -21,4 +21,7 @@ public class AnalyticsService {
     public List<FeatureAnalyticsDto> getFeatureAnalytics() {
         return workLogRepository.getFeatureAnalytics();
     }
+    public List<com.staj.smarttracker.dto.FeatureUserEffortDto> getFeatureUserEffortAnalytics() {
+        return workLogRepository.getFeatureUserEffortAnalytics();
+    }
 }

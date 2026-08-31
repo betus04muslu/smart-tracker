@@ -30,4 +30,17 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long>, JpaSpec
     @Query("SELECT new com.staj.smarttracker.dto.FeatureAnalyticsDto(w.feature.title, w.project.name, SUM(w.spentHours)) " +
             "FROM WorkLog w GROUP BY w.feature.title, w.project.name")
     List<FeatureAnalyticsDto> getFeatureAnalytics();
+
+    @Query("""
+    SELECT new com.staj.smarttracker.dto.FeatureUserEffortDto(
+        w.feature.title,
+        w.project.name,
+        w.user.email,
+        SUM(w.spentHours)
+    )
+    FROM WorkLog w
+    GROUP BY w.feature.title, w.project.name, w.user.email
+    ORDER BY w.feature.title, SUM(w.spentHours) DESC
+    """)
+    List<com.staj.smarttracker.dto.FeatureUserEffortDto> getFeatureUserEffortAnalytics();
 }

@@ -14,7 +14,7 @@ public class WorkLogSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // 1. Açıklama içinde arama (Büyük/küçük harf duyarsız)
+
             if (criteria.getDescription() != null && !criteria.getDescription().isEmpty()) {
                 predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("description")),

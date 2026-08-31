@@ -35,4 +35,29 @@ public class WorkLogController {
         Page<WorkLog> results = workLogService.searchWorkLogs(criteria, pageable);
         return ResponseEntity.ok(results);
     }
+    @GetMapping("/{id}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "ID ile WorkLog Getir")
+    public ResponseEntity<WorkLog> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(workLogService.getById(id));
+    }
+
+    @PostMapping
+    @io.swagger.v3.oas.annotations.Operation(summary = "Yeni WorkLog Oluştur")
+    public ResponseEntity<WorkLog> create(@RequestBody com.staj.smarttracker.dto.WorkLogCreateRequestDto request) {
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED).body(workLogService.createWorkLog(request));
+    }
+
+    @PutMapping("/{id}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "WorkLog Güncelle")
+    public ResponseEntity<WorkLog> update(@PathVariable Long id, @RequestBody com.staj.smarttracker.dto.WorkLogCreateRequestDto request) {
+        return ResponseEntity.ok(workLogService.updateWorkLog(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "WorkLog Sil")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        workLogService.deleteWorkLog(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

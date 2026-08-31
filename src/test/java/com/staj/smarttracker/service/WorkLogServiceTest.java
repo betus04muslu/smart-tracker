@@ -35,7 +35,7 @@ class WorkLogServiceTest {
     @Test
     @DisplayName("Dinamik arama yapıldıında filtrelenmiş sayfayı dönmeli")
     void searchWorkLogs_ShouldReturnPageOfWorkLogs() {
-        // GIVEN (Hazırlık)
+
         WorkLogSearchCriteria criteria = new WorkLogSearchCriteria();
         criteria.setDescription("bug");
 
@@ -48,10 +48,10 @@ class WorkLogServiceTest {
 
         when(workLogRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(mockPage);
 
-        // WHEN (İşlem)
+
         Page<WorkLog> result = workLogService.searchWorkLogs(criteria, pageable);
 
-        // THEN (Doğrulama)
+
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertEquals("Fixed a critical bug", result.getContent().get(0).getDescription());
