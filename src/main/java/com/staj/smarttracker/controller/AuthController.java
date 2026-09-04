@@ -1,9 +1,8 @@
 package com.staj.smarttracker.controller;
 
 import com.staj.smarttracker.config.JwtUtils;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.staj.smarttracker.dto.AuthResponseDto;
+import com.staj.smarttracker.dto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +19,4 @@ public class AuthController {
         String token = jwtUtils.generateToken(request.getEmail());
         return ResponseEntity.ok(new AuthResponseDto(token));
     }
-}
-
-@Data
-class LoginRequestDto {
-    private String email;
-    private String password;
-}
-
-@Data
-@AllArgsConstructor
-class AuthResponseDto {
-    private String token;
 }
