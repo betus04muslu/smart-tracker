@@ -1,4 +1,4 @@
-package com.staj.smarttracker.config;
+package com.staj.smarttracker;
 
 import com.staj.smarttracker.entity.*;
 import com.staj.smarttracker.repository.*;
@@ -21,9 +21,8 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
 
-            User ali = userRepository.save(new User(null, "Ali Yılmaz", "ali@firma.com", null));
-            User ayse = userRepository.save(new User(null, "Ayşe Kaya", "ayse@firma.com", null));
-
+            User ali = userRepository.save(new User(null, "Ali Yılmaz", "ali@firma.com", "123456", null));
+            User ayse = userRepository.save(new User(null, "Ayşe Kaya", "ayse@firma.com", "123456", null));
 
             Project smartTracker = projectRepository.save(new Project(null, "Smart Tracker", "AI Destekli Efor Takip", null));
 

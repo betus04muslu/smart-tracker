@@ -17,11 +17,13 @@ import java.util.List;
 @Repository
 public interface WorkLogRepository extends JpaRepository<WorkLog, Long>, JpaSpecificationExecutor<WorkLog> {
 
+    // Kullanıcıya özel filtreleme metodları
+    List<WorkLog> findByUserId(Long userId);
+    List<WorkLog> findByUserEmail(String email);
 
     @Override
     @EntityGraph(attributePaths = {"user"})
     Page<WorkLog> findAll(Specification<WorkLog> spec, Pageable pageable);
-
 
     @Query("SELECT new com.staj.smarttracker.dto.UserAnalyticsDto(w.user.email, SUM(w.spentHours)) " +
             "FROM WorkLog w GROUP BY w.user.email")

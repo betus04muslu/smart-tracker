@@ -24,6 +24,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "user")
     private List<WorkLog> workLogs;
