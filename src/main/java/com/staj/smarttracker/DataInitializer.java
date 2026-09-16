@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
@@ -15,25 +13,28 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final FeatureRepository featureRepository;
-    private final WorkLogRepository workLogRepository;
 
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
 
-            User ali = userRepository.save(new User(null, "Ali Yılmaz", "ali@firma.com", "123456", null));
-            User ayse = userRepository.save(new User(null, "Ayşe Kaya", "ayse@firma.com", "123456", null));
+            User ali = new User();
+            ali.setName("Ali Yılmaz");
+            ali.setEmail("ali@firma.com");
+            ali.setPassword("123456");
+            userRepository.save(ali);
 
-            Project smartTracker = projectRepository.save(new Project(null, "Smart Tracker", "AI Destekli Efor Takip", null));
+            Project sampleProject = new Project();
+            sampleProject.setName("E-Ticaret API");
+            sampleProject.setDescription("Spring Boot Backend Projesi");
+            sampleProject.setProjectField("Backend");
+            projectRepository.save(sampleProject);
 
+            Feature dbOptimization = new Feature();
+            dbOptimization.setTitle("Database Optimization");
+            featureRepository.save(dbOptimization);
 
-            Feature dbOptimization = featureRepository.save(new Feature(null, "Database Optimization", null));
-
-
-            workLogRepository.save(new WorkLog(null, "Database Optimization - İndeksleme", 3.0, LocalDateTime.now(), ali, smartTracker, dbOptimization));
-            workLogRepository.save(new WorkLog(null, "Database Optimization - Sorgu İyileştirme", 5.0, LocalDateTime.now(), ayse, smartTracker, dbOptimization));
-
-            System.out.println(">>> TEST VERİLERİ BAŞARIYLA YÜKLENDİ! <<<");
+            System.out.println(">>> PROJE VE PORTFÖY ÖZELLİKLİ TEST VERİLERİ YÜKLENDİ! <<<");
         }
     }
 }

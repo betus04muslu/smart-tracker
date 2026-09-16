@@ -39,4 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        // AI ve Auth isteklerinde JWT filtresini tamamen devre dışı bırak
+        return path.startsWith("/api/auth/") || path.startsWith("/api/ai/");
+    }
 }
