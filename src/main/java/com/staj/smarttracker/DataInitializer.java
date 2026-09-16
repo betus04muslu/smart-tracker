@@ -1,7 +1,7 @@
 package com.staj.smarttracker;
 
-import com.staj.smarttracker.entity.*;
-import com.staj.smarttracker.repository.*;
+import com.staj.smarttracker.entity.User;
+import com.staj.smarttracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,30 +11,28 @@ import org.springframework.stereotype.Component;
 public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
-    private final ProjectRepository projectRepository;
-    private final FeatureRepository featureRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
+        // Tabloyu tamamen temizleyip güncel verileri baştan yüklemesi için count şartını kaldırıyoruz
+        // veya mevcut kullanıcıları güncelliyoruz:
 
-            User ali = new User();
-            ali.setName("Ali Yılmaz");
-            ali.setEmail("ali@firma.com");
-            ali.setPassword("123456");
-            userRepository.save(ali);
+        saveOrUpdateUser("Ali Bey", "ali@sirket.com", "Backend Geliştirici", 13);
+        saveOrUpdateUser("Ayşe Hanım", "ayse@sirket.com", "Frontend Geliştirici", 4);
+        saveOrUpdateUser("Mehmet Bey", "mehmet@sirket.com", "Fullstack Geliştirici", 10);
+        saveOrUpdateUser("Betül Hanım", "betul@sirket.com", "Backend Geliştirici", 2);
+        saveOrUpdateUser("Serkan Bey", "serkan@sirket.com", "Frontend Geliştirici", 5);
 
-            Project sampleProject = new Project();
-            sampleProject.setName("E-Ticaret API");
-            sampleProject.setDescription("Spring Boot Backend Projesi");
-            sampleProject.setProjectField("Backend");
-            projectRepository.save(sampleProject);
+        System.out.println(">>> Tüm çalışanlar güncel uzmanlık alanlarıyla veritabanına işlendi!");
+    }
 
-            Feature dbOptimization = new Feature();
-            dbOptimization.setTitle("Database Optimization");
-            featureRepository.save(dbOptimization);
-
-            System.out.println(">>> PROJE VE PORTFÖY ÖZELLİKLİ TEST VERİLERİ YÜKLENDİ! <<<");
-        }
+    private void saveOrUpdateUser(String name, String email, String expertiseArea, int experienceYears) {
+        User user = userRepository.findByEmail(email).orElse(new User());
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword("password");
+        user.setExpertiseArea(expertiseArea);
+        user.setExperienceYears(experienceYears);
+        userRepository.save(user);
     }
 }

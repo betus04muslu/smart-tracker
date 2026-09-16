@@ -2,7 +2,6 @@ package com.staj.smarttracker.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
@@ -20,6 +19,6 @@ public class Feature {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "feature")
+    @OneToMany(mappedBy = "feature", cascade = CascadeType.ALL)
     private List<WorkLog> workLogs;
 }

@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
 
@@ -30,19 +33,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             if (jwtUtils.validateToken(token)) {
                 String email = jwtUtils.getEmailFromToken(token);
+
+                // Şimdilik boş yetki listesiyle kullanıcıyı SecurityContext'e kaydediyoruz
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-
         filterChain.doFilter(request, response);
     }
+
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
         String path = request.getRequestURI();
-        // AI ve Auth isteklerinde JWT filtresini tamamen devre dışı bırak
-        return path.startsWith("/api/auth/") || path.startsWith("/api/ai/");
+        // Auth, AI ve Swagger isteklerinde JWT filtresini tamamen devre dışı bırak
+        return path.startsWith("/api/auth/") || path.startsWith("/api/ai/") || path.startsWith("/swagger-ui");
     }
 }

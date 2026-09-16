@@ -19,13 +19,17 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String name; // Eski yapındaki name alanı korundu
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
+
+    // Yapay zeka efor ve çalışan önerisi için eklenen alanlar:
+    private String expertiseArea;    // Örn: "Backend Geliştirici", "Frontend Geliştirici"
+    private Integer experienceYears; // Örn: 5
 
     @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "user")

@@ -25,17 +25,17 @@ public class WorkLog {
     private LocalDateTime logDate;
 
     @JsonIgnoreProperties({"workLogs", "hibernateLazyInitializer", "handler"})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @JsonIgnoreProperties({"workLogs", "hibernateLazyInitializer", "handler"})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @JsonIgnoreProperties({"workLogs", "hibernateLazyInitializer", "handler"})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feature_id")
     private Feature feature;
 }
